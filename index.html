@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>Socket.io performance test app</title>
+</head>
+<body>
+<!-- Remember this is a pretend file -->
+<script src="/socket.io/socket.io.js"></script>
+
+<!-- Here's the real deal -->
+<script>
+var socket = io.connect(document.location.href);
+ 
+socket.on('you_have_data', function (idx, data) {
+    var end_time = new Date();
+    total_time += end_time - start_time;
+    console.log(total_time + '(ms.) [' + idx + '] - Received ' + data.length + ' bytes.');
+    if (idx++ < countMax) {
+        setTimeout(function () {
+            start_time = new Date();
+            socket.emit('send_me_data', idx);
+        }, 500);
+    }
+});
+var idx = 1,
+    total_time = 0,
+    countMax = 10;
+    start_time = new Date();
+socket.emit('send_me_data', idx);
+</script>
+</body>
+</html>
