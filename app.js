@@ -17,10 +17,14 @@ function handler (req, res) {
     res.end(data);
   });
 }
+function randomString(length, chars) {
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
+    return result;
+};
 
 io.sockets.on('connection', function (client) {
     client.on('send_me_data', function (idx) {
-        client.emit('you_have_data', idx, 'What you say there, Maynard?');
+        client.emit('you_have_data', idx, randomString(4096, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'));
     });
 });
-
